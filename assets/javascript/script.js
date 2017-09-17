@@ -25,7 +25,7 @@ function initMap() {
               position: location,  
               map: map  
             });  
-            marker.push(locations);  
+            markerCluster.addMarker(marker);
           }  
            
           map.addListener('click', function(event) {  
