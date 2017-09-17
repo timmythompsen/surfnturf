@@ -18,6 +18,20 @@ function initMap() {
                label: labels[i % labels.length]
              });
            });
+
+           //click function to add pins "markers" onto google map
+           function addMarker(location) {  
+            var marker = new google.maps.Marker({  
+              position: location,  
+              map: map  
+            });  
+            marker.push(locations);  
+          }  
+           
+          map.addListener('click', function(event) {  
+            addMarker(event.latLng); 
+            console.log(locations); 
+          }); 
    
            // Add a marker clusterer to manage the markers.
            var markerCluster = new MarkerClusterer(map, markers,
