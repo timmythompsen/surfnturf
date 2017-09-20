@@ -15,6 +15,7 @@ database.ref().on("value",function(snapshot){
    console.log(snapshot.val()); 
 })
 
+
 // Create map
 
 function initMap() {
@@ -35,12 +36,15 @@ function initMap() {
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
    // Add markers to the map.
-    database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    database.ref("/spitCast").on("child_added", function(childSnapshot, prevChildKey) {
 
        var myLat = childSnapshot.val().lat;
        var myLng = childSnapshot.val().lng;
        var myPosition = childSnapshot.val();
        var myLatLng = "{lat: " + myLat + ", lng: " + myLng + "}";
+       var locationName = childSnapshot.val().spot_name;
+       var spotId = childSnapshot.val().spot_id;
+
 
        console.log("myLat = " + myLat);
        console.log("myLng = " + myLng);
@@ -48,11 +52,66 @@ function initMap() {
        console.log("myLatLng = " + myLatLng);
 
 
-      var Marker = new google.maps.Marker({
+      var marker = new google.maps.Marker({
       position: myPosition,
       map: map,
+      reference: locationName,
+      idNum: spotId
+      });
+
+      // marker clicked functions
+     /* marker.addListener('click', function(e){
+        infoWindow1.open(map, marker);
+        console.log("marker clicked");
+        
+      });*/
+      /*var infoWindow1 = new google.maps.InfoWindow({
+        content: display(marker.idNum)
+      });*/
+      tempWindow = new google.maps.InfoWindow({
+        content: display(marker.idNum)
+      });
+
+      // mouse over funtions
+      var infoWindow2 = new google.maps.InfoWindow({
+      content: '<h1>'+ marker.reference +'</h1>'
+      });
+
+      marker.addListener('mouseover', function(e){
+        infoWindow2.open(map, marker);
+      });
+      marker.addListener('mouseout', function(e){
+        infoWindow2.close(map, marker);
       });
     });
+    
+    var tempWindow;
+    google.map.Marker.addListener('click', function(e){
+        tempWindow.open(map, marker);
+        console.log("marker clicked");
+        
+      });
+
+    function display(id){
+      var location = id;
+      var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
+
+        //ajax call
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .done(function(response){
+          console.log(response);
+          
+        });
+
+
+    }
+    
+    
+
+
 
    // Add a marker clusterer to manage the markers.
    // var markerCluster = new MarkerClusterer(map, marker,
@@ -60,9 +119,9 @@ function initMap() {
    
    // Listen for click event
    // Store click location to firebase
-   map.addListener('click', function(e) {
+    /*map.addListener('click', function(e) {
     placeMarker(e.latLng, map);
-    });
+    });*/
 
   function placeMarker(position, map) {
     var marker = new google.maps.Marker({
@@ -76,9 +135,14 @@ function initMap() {
       lat: marker.position.lat(),
       lng: marker.position.lng()
     }
-    database.ref().push(objPosition);
+    database.ref("/userSpots").push(objPosition);
   }
+
 }
+
+
+
+
 
   var locations = [
     {lat: -31.563910, lng: 147.154312},
@@ -298,4 +362,6 @@ function initMap() {
 // }
 // ]
 
-// database.ref().push(spitCast);  
+// for (var i=0; i<spitCast.length; i++) {
+//   database.ref("/spitCast").push(spitCast[i]);  
+// }

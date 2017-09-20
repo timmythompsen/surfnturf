@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8">
     <title>Surf N' Turf</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Orbitron:700" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
   </head>
     <body>
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div class="jumbotron banner">
+            <div class="jumbotron">
                 <hgroup>
                   <h1>
                     Surf N' Turf 
@@ -35,20 +36,16 @@
           </div>
         </div>
       </div>
-      <div class="container" id="body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="panel panel-default">
-              <div id="map" class="panel-body">A Basic Panel</div>
-            </div> 
-          </div>
-        </div>
-      </div>
+      
+      <div id="map"></div>
+      
 
-	     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-       <script type="text/javascript" src="assets/javascript/script.js"></script>
-       <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script type="text/javascript" src="assets/javascript/firebasemap.js"></script>
        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbdYz0sVFHyKAMVP051D_UI1PsbxQ92n8&callback=initMap"></script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK4sY4dvK65ceACdFRZ4J5wt34qSItY6E
+            &libraries=visualization&callback=initMap">
+        </script>
     </body>
   </html>

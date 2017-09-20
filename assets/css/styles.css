@@ -1,50 +1,19 @@
-      
-      div {
-        color: black;
-        background-color: white;
-        border: 1px;
-        border-color: black;
-        text-align: center;
-        
-      }
+.jumbotron {
+    background-image: url("image1.jpg");
+    background-color: transparent;
+    min-height: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+  
+  }
 
-      .jumbotron {
-        background-image: url("image1.jpg");
-        background-color: transparent;
-        min-height: 50%;
-        background-repeat: no-repeat;
-        background-position: center;
-        -webkit-background-size: cover;
-      
-      }
-
-      hgroup{
-        color : Black;
-        font-family: 'Orbitron', sans-serif;
-
-      }
-
-      .panel-body{
-        background-color: transparent;
-        padding-top: 20%;
-      }
-
-      body { 
-        background-image: url("image2.jpg");
-        background-repeat:  no-repeat;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-
-      }
-      
-      .form-inline{
-        float: right;
-      }
-
-      /* Google map div dimensions */
-      #map {
-        height: 100%;
-        width: 100%;
-      }
+#map {
+    height: 100%;
+    margin: 40px;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
