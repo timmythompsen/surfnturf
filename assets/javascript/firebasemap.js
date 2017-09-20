@@ -60,17 +60,14 @@ function initMap() {
       });
 
       // marker clicked functions
-     /* marker.addListener('click', function(e){
-        infoWindow1.open(map, marker);
+      marker.addListener('click', function(e){
+        spotNum = marker.idNum;
+        display();
         console.log("marker clicked");
         
-      });*/
-      /*var infoWindow1 = new google.maps.InfoWindow({
-        content: display(marker.idNum)
-      });*/
-      tempWindow = new google.maps.InfoWindow({
-        content: display(marker.idNum)
       });
+      
+      
 
       // mouse over funtions
       var infoWindow2 = new google.maps.InfoWindow({
@@ -85,15 +82,10 @@ function initMap() {
       });
     });
     
-    var tempWindow;
-    google.map.Marker.addListener('click', function(e){
-        tempWindow.open(map, marker);
-        console.log("marker clicked");
-        
-      });
+    var spotNum;
 
-    function display(id){
-      var location = id;
+    function display(){
+      var location = spotNum;
       var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
 
         //ajax call
@@ -103,16 +95,14 @@ function initMap() {
         })
         .done(function(response){
           console.log(response);
+          var infoWindow1 = new google.maps.InfoWindow({
+                  content: '<h1>'+response[0].spot_id+'</h1>'
+                });
+          infoWindow1.open(map);
           
         });
-
-
     }
     
-    
-
-
-
    // Add a marker clusterer to manage the markers.
    // var markerCluster = new MarkerClusterer(map, marker,
    //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
@@ -139,10 +129,6 @@ function initMap() {
   }
 
 }
-
-
-
-
 
   var locations = [
     {lat: -31.563910, lng: 147.154312},
