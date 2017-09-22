@@ -50,10 +50,10 @@ function initMap() {
        var spotId = childSnapshot.val().spot_id;
 
 
-       console.log("myLat = " + myLat);
-       console.log("myLng = " + myLng);
-       console.log("myPosition = " + myPosition);
-       console.log("myLatLng = " + myLatLng);
+      //  console.log("myLat = " + myLat);
+      //  console.log("myLng = " + myLng);
+      //  console.log("myPosition = " + myPosition);
+      //  console.log("myLatLng = " + myLatLng);
 
 
       var marker = new google.maps.Marker({
@@ -68,6 +68,8 @@ function initMap() {
         function display(){
         var location = spotNum;
         var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
+        var queryURL2 = "http://api.spitcast.com/api/county/swell/san-diego/";
+        
 
           //ajax call
           $.ajax({
@@ -76,10 +78,91 @@ function initMap() {
           })
           .done(function(response){
             console.log(response);
+            
+          $.ajax({
+            url: queryURL2,
+            method: "GET"
+          }) 
+          .done(function(response2){
+            console.log(response2);
+            var dir=null;
+            var amSwellDir = response2[6][5].dir;
+            var midSwellDir = response2[12][5].dir;
+            var pmSwellDir = response2[17][5].dir;
+
+            if (amSwellDir >= 0 && amSwellDir < 45){
+              dir = "NNE";
+            } else if (amSwellDir >= 45 && amSwellDir < 90){
+             dir="NE";
+            }else if(amSwellDir >= 90 && amSwellDir < 135){
+              dir ="SE";
+            }else if(amSwellDir >= 135 && amSwellDir < 180){
+              dir="SSE";
+            }else if(amSwellDir >= 180 && amSwellDir < 225){
+              dir="SSW";
+            }else if (amSwellDir >= 225 && amSwellDir < 270){
+              dir="SW";
+            }else if(amSwellDir >= 270 && amSwellDir < 315){
+              dir="NW";
+            }else if(amSwellDir >= 315 && amSwellDir < 360){
+              dir="NNW";
+            }
+  
+            if (midSwellDir >= 0 && midSwellDir < 45){
+              dir = "NNE";
+            } else if (midSwellDir >= 45 && midSwellDir < 90){
+             dir="NE";
+            }else if(midSwellDir >= 90 && midSwellDir < 135){
+              dir ="SE";
+            }else if(midSwellDir >= 135 && midSwellDir < 180){
+              dir="SSE";
+            }else if(midSwellDir >= 180 && midSwellDir < 225){
+              dir="SSW";
+            }else if (midSwellDir >= 225 && midSwellDir < 270){
+              dir="SW";
+            }else if(midSwellDir >= 270 && midSwellDir < 315){
+              dir="NW";
+            }else if(midSwellDir >= 315 && midSwellDir < 360){
+              dir="NNW";
+            }
+  
+            if (pmSwellDir >= 0 && pmSwellDir < 45){
+              dir = "NNE";
+            } else if (pmSwellDir >= 45 && pmSwellDir < 90){
+             dir="NE";
+            }else if(pmSwellDir >= 90 && pmSwellDir < 135){
+              dir ="SE";
+            }else if(pmSwellDir >= 135 && pmSwellDir < 180){
+              dir="SSE";
+            }else if(pmSwellDir >= 180 && pmSwellDir < 225){
+              dir="SSW";
+            }else if (pmSwellDir >= 225 && pmSwellDir < 270){
+              dir="SW";
+            }else if(pmSwellDir >= 270 && pmSwellDir < 315){
+              dir="NW";
+            }else if(pmSwellDir >= 315 && pmSwellDir < 360){
+              dir="NNW";
+            }
+
+            var displayBox = '<div id="infoWindow"><p>'
+            + response[0].spot_name +'</p><p>Morning Conditions: '
+            + response[5].size+'ft' + '</br> Shape: ' + response[5].shape_full
+            + '</br> Swell Direction: '+ dir 
+            +'</p><p>Midday Conditions: ' 
+            + response[12].size+'ft' + '</br> Shape: ' + response[12].shape_full 
+            +'</br> Swell Direction: '+ dir 
+            +'</p><p>Dusk Conditions :' 
+            + response[17].size+'ft' + '</br> Shape: ' + response[17].shape_full
+            +'</br> Swell Direction: '+ dir +'</p>' +  '<p>' + '</p></div>'
             var infoWindow1 = new google.maps.InfoWindow({
-                    content: '<p>'+response[0].spot_id+'</p>'
+                    content: displayBox
                   });
-            infoWindow1.open(map, marker);            
+            infoWindow1.open(map, marker);
+
+          });
+
+          
+                        
           });
         }
 
@@ -110,66 +193,66 @@ function initMap() {
       });
     });
     
-        //testing google places api
-      // Create the search box and link it to the UI element.
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+      //   //testing google places api
+      // // Create the search box and link it to the UI element.
+      //   // Create the search box and link it to the UI element.
+      //   var input = document.getElementById('pac-input');
+      //   var searchBox = new google.maps.places.SearchBox(input);
+      //   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
+      //   // Bias the SearchBox results towards current map's viewport.
+      //   map.addListener('bounds_changed', function() {
+      //     searchBox.setBounds(map.getBounds());
+      //   });
 
-        var markers = [];
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
+      //   var markers = [];
+      //   // Listen for the event fired when the user selects a prediction and retrieve
+      //   // more details for that place.
+      //   searchBox.addListener('places_changed', function() {
+      //     var places = searchBox.getPlaces();
 
-          if (places.length == 0) {
-            return;
-          }
+      //     if (places.length == 0) {
+      //       return;
+      //     }
 
-          // Clear out the old markers.
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
+      //     // Clear out the old markers.
+      //     markers.forEach(function(marker) {
+      //       marker.setMap(null);
+      //     });
+      //     markers = [];
 
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            if (!place.geometry) {
-              console.log("Returned place contains no geometry");
-              return;
-            }
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
+      //     // For each place, get the icon, name and location.
+      //     var bounds = new google.maps.LatLngBounds();
+      //     places.forEach(function(place) {
+      //       if (!place.geometry) {
+      //         console.log("Returned place contains no geometry");
+      //         return;
+      //       }
+      //       var icon = {
+      //         url: place.icon,
+      //         size: new google.maps.Size(71, 71),
+      //         origin: new google.maps.Point(0, 0),
+      //         anchor: new google.maps.Point(17, 34),
+      //         scaledSize: new google.maps.Size(25, 25)
+      //       };
 
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
+      //       // Create a marker for each place.
+      //       markers.push(new google.maps.Marker({
+      //         map: map,
+      //         icon: icon,
+      //         title: place.name,
+      //         position: place.geometry.location
+      //       }));
 
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-          });
-          map.fitBounds(bounds);
-        });
+      //       if (place.geometry.viewport) {
+      //         // Only geocodes have viewport.
+      //         bounds.union(place.geometry.viewport);
+      //       } else {
+      //         bounds.extend(place.geometry.location);
+      //       }
+      //     });
+      //     map.fitBounds(bounds);
+      //   });
 
 
  

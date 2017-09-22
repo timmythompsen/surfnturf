@@ -1,0 +1,19 @@
+Morning Swell:  response[5].size
+ <ul>
+    <li></li>
+ </ul>
+Afternoon Swell: response[12].hour
+ <ul>
+    <li></li>
+ </ul>
+Night Swell: response[17].
+ <ul>
+    <li></li>
+ </ul>
+Swell Direction:
+Shape: 
+Wind:
+Wind Direction:
+Water Temp:
+Tide High:
+Tide Low:
