@@ -1,3 +1,10 @@
+//global variables
+var marker;
+var infoWindow1;
+var infoWindow2;
+
+
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAzgRe2qa6Q8latl74anLMAAOs9s6D3fX4",
@@ -32,9 +39,6 @@ function initMap() {
     disableDoubleClickZoom: true
   });
 
-  // Create an array of alphabetical characters used to label the markers.
-  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
    // Add markers to the map.
     database.ref("/spitCast").on("child_added", function(childSnapshot, prevChildKey) {
 
@@ -57,21 +61,45 @@ function initMap() {
       map: map,
       reference: locationName,
       idNum: spotId
-      });
 
+      });
+         
+        //display() is the ajax call for spitcast to display spot information
+        function display(){
+        var location = spotNum;
+        var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
+
+          //ajax call
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
+          .done(function(response){
+            console.log(response);
+            var infoWindow1 = new google.maps.InfoWindow({
+                    content: '<p>'+response[0].spot_id+'</p>'
+                  });
+            infoWindow1.open(map, marker);            
+          });
+        }
+
+      var spotNum;
       // marker clicked functions
       marker.addListener('click', function(e){
         spotNum = marker.idNum;
         display();
         console.log("marker clicked");
         
+        //closes infoWindow2 on mouseover so that infoWindow1 will stay open until clicked again.
+        infoWindow2.close(map, marker);
+                  
       });
       
       
 
       // mouse over funtions
       var infoWindow2 = new google.maps.InfoWindow({
-      content: '<h1>'+ marker.reference +'</h1>'
+      content: '<p>'+ marker.reference +'</p>'
       });
 
       marker.addListener('mouseover', function(e){
@@ -82,26 +110,71 @@ function initMap() {
       });
     });
     
-    var spotNum;
+        //testing google places api
+      // Create the search box and link it to the UI element.
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-    function display(){
-      var location = spotNum;
-      var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
-
-        //ajax call
-        $.ajax({
-          url: queryURL,
-          method: "GET"
-        })
-        .done(function(response){
-          console.log(response);
-          var infoWindow1 = new google.maps.InfoWindow({
-                  content: '<h1>'+response[0].spot_id+'</h1>'
-                });
-          infoWindow1.open(map);
-          
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
         });
-    }
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+
+
+ 
+
+
     
    // Add a marker clusterer to manage the markers.
    // var markerCluster = new MarkerClusterer(map, marker,
