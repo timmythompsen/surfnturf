@@ -7,9 +7,10 @@
     <link href="https://fonts.googleapis.com/css?family=Orbitron:700" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Kanit|Permanent+Marker" rel="stylesheet">
   </head>
     <body>
-      <div class="container">
+      <div class="fluid-container">
         <div class="row">
           <div class="col-md-12">
             <div class="jumbotron">
@@ -23,27 +24,40 @@
               <nav>
                 <ul class="nav nav-pills">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
+                    <a id="loginBtn" class="nav-link" active" href="#"><i class="glyphicon glyphicon-tint"></i></a>
                   </li>
-                  <form class="form-inline my-2 my-lg-0">
-                  <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                  <form id="search-form" class="form-inline my-2 my-lg-0">
+                  <input id="searchval" class="form-control mr-sm-2" type="text" placeholder="Search">
                   <button id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 </ul>
-                
               </nav>
             </div>
           </div>
         </div>
       </div>
-      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
       <div id="mapContainer">
         <div id="map"></div>
       </div>
-
-
       <!-- Login Modal -->
-      <div class="modal-content">
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+          </div>
+              <input class="input" id="txtEmail" type="email" placeholder="Email">
+              <input class="input" id="txtPassword" type="password" placeholder="Password">
+              <div class="buttons">
+                <button id="btnLogin" class="btn btn-secondary">Log In</button>
+                <button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+                <button id="btnLogout" class="btn btn-action hide">Log Out</button>
+                </div>
+          </div>
+      </div>
+
+      
+      <!-- Login Modal -->
+     <!--  <div class="modal-content">
         <div class="modal-header">
           <span class="close">&times;</span>
             <h2>Modal Header</h2>
@@ -55,7 +69,7 @@
         <div class"modal-footer">
           <h3>Modal Footer</h3>
         </div>
-      </div>
+      </div> -->
 
 
 

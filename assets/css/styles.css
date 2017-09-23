@@ -1,11 +1,13 @@
 .jumbotron {
     background-image: url("image1.jpg");
     background-color: transparent;
-    min-height: 50%;
+    min-height: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-  
+    margin-bottom: 0px;
+    text-align: center;
+    
   }
 
 #map {
@@ -21,17 +23,126 @@
 
   
   /*Login Modal Styling*/
-
+  #myModal {
+    margin: auto;
+    height: 100%;
+    width: 100%
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
   .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #7ba6ed;
     color: white;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
   }
-
-  .modal-body {
-    padding: 2px 16px;
+  .modal-content {
+    position: absolute;
+    top: 400px;
+    left: calc(50% - 250px);
+    width: 500px;
+    height: auto;
+    background-color: #fefefe;
+    margin: auto;
+    padding-top: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.5s
   }
+  /* Modal Animation */
+@keyframes animatetop {
+  from {top: -500px; opacity: 0}
+  to {top: 400px; opacity: 1}
+}
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-body {
+  position: absolute;
+  padding: 2px 16px;
+  height: 100%;
+  width: 100%;
+}
+/****
+Login Info Styling
+****/
+.input {
+  margin: auto;
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+}
+.buttons {
+  display: inline-block;
+  margin: auto;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+}
 
-  .modal-footer {
-    padding: 2px 
+  #mapContainer{
+    height: 80%;
+    width: 100%;
+  }
+  #nav-div{
+    background-color: #000000;
+  }
+  #search-form{
+    float: right;
+    margin-top: 3px;
+  }
+  #menu-button{
+    color: white;
+    background-color: grey;
+  }
+  .nav-pills{
+    height: 40px;
+  }
+  #infoWindow{
+    
+    height: 425px;
+    width: 350px !important;
+    top: 0 !important;
+    left: 0 !important;
+    background-color: #EAEAEA;
+    box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+    border: 3px solid rgba(72, 181, 233, 0.6);
+    border-radius: 2px 2px 0 0;
+
+  }
+  h3{
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+  }
+  p{
+    margin-left: 10px;
+    font-family: 'Kanit', sans-serif;
+  }
+  div{
+    background-color: 868889;
   }
