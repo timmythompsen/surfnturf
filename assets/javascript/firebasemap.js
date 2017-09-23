@@ -3,8 +3,6 @@ var marker;
 var infoWindow1;
 var infoWindow2;
 
-
-
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAzgRe2qa6Q8latl74anLMAAOs9s6D3fX4",
@@ -21,9 +19,6 @@ var database = firebase.database();
 database.ref().on("value",function(snapshot){
    console.log(snapshot.val()); 
 })
-
-
-// Create map
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -193,7 +188,9 @@ function initMap() {
         infoWindow2.close(map, marker);           
       });
       
-      
+      document.getElementById('search').onclick = function() {
+    // do magic
+      };
 
       // mouse over funtions
       var infoWindow2 = new google.maps.InfoWindow({
