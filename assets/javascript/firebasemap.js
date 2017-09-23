@@ -49,28 +49,20 @@ function initMap() {
        var locationName = childSnapshot.val().spot_name;
        var spotId = childSnapshot.val().spot_id;
 
-
-      //  console.log("myLat = " + myLat);
-      //  console.log("myLng = " + myLng);
-      //  console.log("myPosition = " + myPosition);
-      //  console.log("myLatLng = " + myLatLng);
-
-
       var marker = new google.maps.Marker({
       position: myPosition,
       map: map,
       reference: locationName,
-      idNum: spotId
-
-      });
+      idNum: spotId});
          
         //display() is the ajax call for spitcast to display spot information
         function display(){
         var location = spotNum;
         var queryURL = "http://api.spitcast.com/api/spot/forecast/" + location + "/";
         var queryURL2 = "http://api.spitcast.com/api/county/swell/san-diego/";
-        
-
+        var queryURL3 = "http://api.spitcast.com/api/county/wind/san-diego/";
+        var queryURL4 = "http://api.spitcast.com/api/county/tide/san-diego/";
+        var queryURL5 = "http://api.spitcast.com/api/county/water-temperature/san-diego/";
           //ajax call
           $.ajax({
             url: queryURL,
@@ -79,91 +71,115 @@ function initMap() {
           .done(function(response){
             console.log(response);
             
-          $.ajax({
-            url: queryURL2,
-            method: "GET"
-          }) 
-          .done(function(response2){
-            console.log(response2);
-            var dir=null;
-            var amSwellDir = response2[6][5].dir;
-            var midSwellDir = response2[12][5].dir;
-            var pmSwellDir = response2[17][5].dir;
+            $.ajax({
+              url: queryURL2,
+              method: "GET"
+            }) 
+            .done(function(response2){
+              console.log(response2);
 
-            if (amSwellDir >= 0 && amSwellDir < 45){
-              dir = "NNE";
-            } else if (amSwellDir >= 45 && amSwellDir < 90){
-             dir="NE";
-            }else if(amSwellDir >= 90 && amSwellDir < 135){
-              dir ="SE";
-            }else if(amSwellDir >= 135 && amSwellDir < 180){
-              dir="SSE";
-            }else if(amSwellDir >= 180 && amSwellDir < 225){
-              dir="SSW";
-            }else if (amSwellDir >= 225 && amSwellDir < 270){
-              dir="SW";
-            }else if(amSwellDir >= 270 && amSwellDir < 315){
-              dir="NW";
-            }else if(amSwellDir >= 315 && amSwellDir < 360){
-              dir="NNW";
-            }
-  
-            if (midSwellDir >= 0 && midSwellDir < 45){
-              dir = "NNE";
-            } else if (midSwellDir >= 45 && midSwellDir < 90){
-             dir="NE";
-            }else if(midSwellDir >= 90 && midSwellDir < 135){
-              dir ="SE";
-            }else if(midSwellDir >= 135 && midSwellDir < 180){
-              dir="SSE";
-            }else if(midSwellDir >= 180 && midSwellDir < 225){
-              dir="SSW";
-            }else if (midSwellDir >= 225 && midSwellDir < 270){
-              dir="SW";
-            }else if(midSwellDir >= 270 && midSwellDir < 315){
-              dir="NW";
-            }else if(midSwellDir >= 315 && midSwellDir < 360){
-              dir="NNW";
-            }
-  
-            if (pmSwellDir >= 0 && pmSwellDir < 45){
-              dir = "NNE";
-            } else if (pmSwellDir >= 45 && pmSwellDir < 90){
-             dir="NE";
-            }else if(pmSwellDir >= 90 && pmSwellDir < 135){
-              dir ="SE";
-            }else if(pmSwellDir >= 135 && pmSwellDir < 180){
-              dir="SSE";
-            }else if(pmSwellDir >= 180 && pmSwellDir < 225){
-              dir="SSW";
-            }else if (pmSwellDir >= 225 && pmSwellDir < 270){
-              dir="SW";
-            }else if(pmSwellDir >= 270 && pmSwellDir < 315){
-              dir="NW";
-            }else if(pmSwellDir >= 315 && pmSwellDir < 360){
-              dir="NNW";
-            }
 
-            var displayBox = '<div id="infoWindow"><p>'
-            + response[0].spot_name +'</p><p>Morning Conditions: '
-            + response[5].size+'ft' + '</br> Shape: ' + response[5].shape_full
-            + '</br> Swell Direction: '+ dir 
-            +'</p><p>Midday Conditions: ' 
-            + response[12].size+'ft' + '</br> Shape: ' + response[12].shape_full 
-            +'</br> Swell Direction: '+ dir 
-            +'</p><p>Dusk Conditions :' 
-            + response[17].size+'ft' + '</br> Shape: ' + response[17].shape_full
-            +'</br> Swell Direction: '+ dir +'</p>' +  '<p>' + '</p></div>'
-            var infoWindow1 = new google.maps.InfoWindow({
-                    content: displayBox
+              $.ajax({
+                url: queryURL3,
+                method: "GET"
+              }) 
+              .done(function(response3){
+                console.log(response3); 
+
+                $.ajax({
+                  url: queryURL4,
+                  method: "GET"
+                }) 
+                .done(function(response4){
+                  console.log(response4); 
+
+                  $.ajax({
+                    url: queryURL5,
+                    method: "GET"
+                  }) 
+                  .done(function(response5){
+                    console.log(response5);  
+
+                      var dir=null;
+                      var amSwellDir = response2[6][5].dir;
+                      var midSwellDir = response2[12][5].dir;
+                      var pmSwellDir = response2[17][5].dir;
+
+                      if (amSwellDir >= 0 && amSwellDir < 45){
+                        dir = "NNE";
+                      } else if (amSwellDir >= 45 && amSwellDir < 90){
+                       dir="NE";
+                      }else if(amSwellDir >= 90 && amSwellDir < 135){
+                        dir ="SE";
+                      }else if(amSwellDir >= 135 && amSwellDir < 180){
+                        dir="SSE";
+                      }else if(amSwellDir >= 180 && amSwellDir < 225){
+                        dir="SSW";
+                      }else if (amSwellDir >= 225 && amSwellDir < 270){
+                        dir="SW";
+                      }else if(amSwellDir >= 270 && amSwellDir < 315){
+                        dir="NW";
+                      }else if(amSwellDir >= 315 && amSwellDir < 360){
+                        dir="NNW";
+                      }
+            
+                      if (midSwellDir >= 0 && midSwellDir < 45){
+                        dir = "NNE";
+                      } else if (midSwellDir >= 45 && midSwellDir < 90){
+                       dir="NE";
+                      }else if(midSwellDir >= 90 && midSwellDir < 135){
+                        dir ="SE";
+                      }else if(midSwellDir >= 135 && midSwellDir < 180){
+                        dir="SSE";
+                      }else if(midSwellDir >= 180 && midSwellDir < 225){
+                        dir="SSW";
+                      }else if (midSwellDir >= 225 && midSwellDir < 270){
+                        dir="SW";
+                      }else if(midSwellDir >= 270 && midSwellDir < 315){
+                        dir="NW";
+                      }else if(midSwellDir >= 315 && midSwellDir < 360){
+                        dir="NNW";
+                      }
+            
+                      if (pmSwellDir >= 0 && pmSwellDir < 45){
+                        dir = "NNE";
+                      } else if (pmSwellDir >= 45 && pmSwellDir < 90){
+                       dir="NE";
+                      }else if(pmSwellDir >= 90 && pmSwellDir < 135){
+                        dir ="SE";
+                      }else if(pmSwellDir >= 135 && pmSwellDir < 180){
+                        dir="SSE";
+                      }else if(pmSwellDir >= 180 && pmSwellDir < 225){
+                        dir="SSW";
+                      }else if (pmSwellDir >= 225 && pmSwellDir < 270){
+                        dir="SW";
+                      }else if(pmSwellDir >= 270 && pmSwellDir < 315){
+                        dir="NW";
+                      }else if(pmSwellDir >= 315 && pmSwellDir < 360){
+                        dir="NNW";
+                      }
+
+                      var displayBox = '<div id="infoWindow"><p>'
+                      + response[0].spot_name +'</p><p>Morning Conditions: '
+                      + response[5].size+'ft' + '</br> Shape: ' + response[5].shape_full
+                      + '</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[5].speed_kts + '</br> Tide: ' + response4[5].tide_meters + '</br>'
+                      +'</p><p>Midday Conditions: ' 
+                      + response[12].size+'ft' + '</br> Shape: ' + response[12].shape_full 
+                      +'</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[12].speed_kts + '</br> Tide: ' + response4[12].tide_meters + '</br>'
+                      +'</p><p>Dusk Conditions :' 
+                      + response[17].size+'ft' + '</br> Shape: ' + response[17].shape_full
+                      +'</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[17].speed_kts + '</br> Tide: ' + response4[17].tide_meters + '</br>'
+                      +'</p>' +  '<p> Water Temp: ' + response5.fahrenheit + '</br> Wetsuit: ' + response5.wetsuit + '</p></div>';
+
+                      var infoWindow1 = new google.maps.InfoWindow({
+                              content: displayBox
+                            });
+                      infoWindow1.open(map, marker);
+                    });
                   });
-            infoWindow1.open(map, marker);
-
-          });
-
-          
-                        
-          });
+                });
+              });
+            });
         }
 
       var spotNum;
@@ -174,8 +190,7 @@ function initMap() {
         console.log("marker clicked");
         
         //closes infoWindow2 on mouseover so that infoWindow1 will stay open until clicked again.
-        infoWindow2.close(map, marker);
-                  
+        infoWindow2.close(map, marker);           
       });
       
       
@@ -315,195 +330,3 @@ function initMap() {
     {lat: 33.034405, lng: -118.292928},
     {lat: 34.034405, lng: -117.292928}
   ]
-
-// database.ref().push(locations);    
-
-// var spitCast = 
-// [
-// {
-// "county": "San Diego",
-// "lat": 33.20422852759,
-// "lng": -117.3959770213895,
-// "spot_id": 238,
-// "spot_name": "Oceanside Harbor"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.19338704616089,
-// "lng": -117.3871878580306,
-// "spot_id": 594,
-// "spot_name": "Oceanside Pier"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.18560497984529,
-// "lng": -117.37826775154,
-// "spot_id": 628,
-// "spot_name": "Wisconsin"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.1727141797096,
-// "lng": -117.3666572301789,
-// "spot_id": 629,
-// "spot_name": "Cassidy"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.14732039517696,
-// "lng": -117.3467966641187,
-// "spot_id": 237,
-// "spot_name": "Tamarack"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.1440071379831,
-// "lng": -117.344584923286,
-// "spot_id": 596,
-// "spot_name": "Warm Water Jetty"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.1287625038052,
-// "lng": -117.3361948822189,
-// "spot_id": 597,
-// "spot_name": "Terra Mar"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.10077725856549,
-// "lng": -117.3199860617356,
-// "spot_id": 630,
-// "spot_name": "Campground"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.08703466528135,
-// "lng": -117.314238172042,
-// "spot_id": 236,
-// "spot_name": "Ponto"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.07548446739567,
-// "lng": -117.310721142163,
-// "spot_id": 400,
-// "spot_name": "Grandview"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.06357021203468,
-// "lng": -117.3055500790094,
-// "spot_id": 235,
-// "spot_name": "Beacons"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.04544227410393,
-// "lng": -117.2982038691907,
-// "spot_id": 401,
-// "spot_name": "D Street"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.03442293101347,
-// "lng": -117.2957502535422,
-// "spot_id": 234,
-// "spot_name": "Swamis"
-// },
-// {
-// "county": "San Diego",
-// "lat": 33.01541991675105,
-// "lng": -117.283273919829,
-// "spot_id": 232,
-// "spot_name": "Cardiff Reef"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.95866232586716,
-// "lng": -117.2691753574579,
-// "spot_id": 230,
-// "spot_name": "15th Street - Del Mar"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.93310208353217,
-// "lng": -117.2617407404518,
-// "spot_id": 754,
-// "spot_name": "Torrey Pines State Beach"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.88872776198521,
-// "lng": -117.2574779327986,
-// "spot_id": 229,
-// "spot_name": "Blacks Beach"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.8665985093327,
-// "lng": -117.2562736520856,
-// "spot_id": 228,
-// "spot_name": "Scripps Pier"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.82966532137208,
-// "lng": -117.2820435395789,
-// "spot_id": 227,
-// "spot_name": "Windansea"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.81342404990851,
-// "lng": -117.2738442945035,
-// "spot_id": 398,
-// "spot_name": "Bird Rock"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.80694591751527,
-// "lng": -117.2659989723968,
-// "spot_id": 399,
-// "spot_name": "Tourmaline"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.79702950543552,
-// "lng": -117.2596029503458,
-// "spot_id": 226,
-// "spot_name": "Pacific Beach"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.77792900748604,
-// "lng": -117.2543264821912,
-// "spot_id": 397,
-// "spot_name": "Mission Beach"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.74915185196409,
-// "lng": -117.2553418849109,
-// "spot_id": 225,
-// "spot_name": "Ocean Beach Pier"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.71899890471818,
-// "lng": -117.2571632713268,
-// "spot_id": 224,
-// "spot_name": "Sunset Cliffs"
-// },
-// {
-// "county": "San Diego",
-// "lat": 32.577928810608,
-// "lng": -117.1346007967761,
-// "spot_id": 223,
-// "spot_name": "Imperial Beach"
-// }
-// ]
-
-// for (var i=0; i<spitCast.length; i++) {
-//   database.ref("/spitCast").push(spitCast[i]);  
-// }
