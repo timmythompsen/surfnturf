@@ -9,6 +9,11 @@
   const btnSignUp=document.getElementById('btnSignUp');
   const btnLogout=document.getElementById('btnLogout');
 
+  // open login modal
+  nbBtnLogin.addEventListener('click', e=> {
+    modal.style.display = "block";    
+  })
+
   // add login event
   btnLogin.addEventListener('click', e=> {
     // get email and password
@@ -18,6 +23,7 @@
     // sign in
     const promise = auth.signInWithEmailAndPassword(email, pass);
     promise.catch(e=> console.log(e.message));
+    modal.style.display = "none";
   });
 
   btnSignUp.addEventListener('click',e=> {
@@ -27,6 +33,7 @@
     const email = txtEmail.value;
     const pass = txtPassword.value;
     const auth = firebase.auth();
+    modal.style.display = "none";    
 
     // console.log(dispName);
     // // sign in
@@ -56,6 +63,7 @@
         } else {
             console.error(error);
         }
+      
         // [END_EXCLUDE]
     })
   });
@@ -66,20 +74,30 @@
     firebase.auth().signOut();
   });
 
+  nbBtnLogout.addEventListener('click',e=> {
+    console.log("btnLogout clicked");
+    $("#loggedInAs").html("");
+    firebase.auth().signOut();
+  });
+
   // add real time listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
       console.log(firebaseUser);
       sessionStorage.setItem("UniqueID",firebaseUser.uid);
-      $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName);
+
       console.log("Unique Id: " + sessionStorage.getItem("UniqueID"));
       var favorite=database.ref("/userSpots/"+ sessionStorage.getItem("UniqueID")+"/");
       console.log(favorite);
       btnLogout.classList.remove('hide');
+      nbBtnLogout.classList.remove('hide');
+      nbBtnLogin.classList.add('hide');
+      $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + " ");
 
     } else {
       console.log('not logged in'); 
-      btnLogout.classList.add('hide'); 
+      nbBtnLogout.classList.add('hide');
+      nbBtnLogin.classList.remove('hide'); 
     }
   });
 
