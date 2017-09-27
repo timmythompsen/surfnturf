@@ -51,6 +51,8 @@ function initMap() {
       map: map,
       reference: locationName,
       idNum: spotId});
+
+      
          
         //display() is the ajax call for spitcast to display spot information
         function display(){
@@ -168,6 +170,7 @@ function initMap() {
                       +'</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[17].speed_kts + '</br> Tide: ' + response4[17].tide_meters + '</br>'
                       +'</p>' +  '<p> Water Temp: ' + response5.fahrenheit + '</br> Wetsuit: ' + response5.wetsuit + '</p></div>';
 
+
                       var infoWindow1 = new google.maps.InfoWindow({
                               content: displayBox
                             });
@@ -187,32 +190,58 @@ function initMap() {
         console.log("marker clicked");
         infoWindow2.close(map, marker);           
       });
-      
+
       document.getElementById('search').onclick = function() {
+        event.preventDefault();
+        var searchValue = document.getElementById("searchval").value.trim();
+        console.log(searchValue);
+        var temp = searchValue.toLowerCase().trim();
+        console.log(temp);
+
+            
+        database.ref().child('spitCast').on("value", function(snapshot) {
+            console.log(snapshot.val());
+            
+        });
+      };
+
+
+      /*
+      document.getElementById('search').onclick = function() {
+        event.preventDefault();
         var searchValue = document.getElementById("searchval").value.trim();
         console.log(searchValue);
         var temp = searchValue.toLowerCase();
-        var queryURL = "http://api.spitcast.com/api/county/spots/san-diego/";
+        var queryURL6 = "http://api.spitcast.com/api/county/spots/san-diego/";
         //ajax call
           $.ajax({
-            url: queryURL,
+            url: queryURL6,
             method: "GET"
           })
-          .done(function(response){
-            console.log(response);
+          .done(function(response6){
+            console.log(response6);
             var found = false;
-            for(var i=0; i < response.length; i++){
-              if(temp === response[i].spot_name.toLowerCase().trim()){
-                spotNum = response[i].spot_id;
-                display();
+            for(var i=0; i < response6.length; i++){
+              if(temp === response6[i].spot_name.toLowerCase().trim()){
+                spotNum = response6[i].spot_id;
+                
+                console.log(spotNum);
+              
                 found = true;
+               
             }
+            
           }
+          
             if(found === false){
               alert("No results found.");
             }
+            else if(found === true){
+              display();
+            }
           });
       };
+      */
 
       // mouse over funtions
       var infoWindow2 = new google.maps.InfoWindow({
