@@ -150,3 +150,15 @@ Login Info Styling
   #loggedInAs {
     color: white;
   }
+
+  #nbBtnLogin {
+    margin-top: 3px;
+  }
+
+  #nbBtnSignUp {
+    margin-top: 3px;
+  }
+
+  #nbBtnLogout {
+    margin-top: 3px;
+  }

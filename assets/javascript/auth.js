@@ -14,6 +14,11 @@
     modal.style.display = "block";    
   })
 
+    // open sign-up modal
+  nbBtnSignUp.addEventListener('click', e=> {
+    modalSignUp.style.display = "block";
+  });
+
   // add login event
   btnLogin.addEventListener('click', e=> {
     // get email and password
@@ -23,6 +28,7 @@
     // sign in
     const promise = auth.signInWithEmailAndPassword(email, pass);
     promise.catch(e=> console.log(e.message));
+    promise.catch(e=> alert(e.message));
     modal.style.display = "none";
   });
 
@@ -30,10 +36,10 @@
     // get email and password
     // TODO: check for real email
     const dispName = txtDispName.value;
-    const email = txtEmail.value;
-    const pass = txtPassword.value;
+    const email = txtEmail2.value;
+    const pass = txtPassword2.value;
     const auth = firebase.auth();
-    modal.style.display = "none";    
+    modalSignUp.style.display = "none";    
 
     // console.log(dispName);
     // // sign in
@@ -62,6 +68,7 @@
             alert('The password is too weak.');
         } else {
             console.error(error);
+            alert(error);
         }
       
         // [END_EXCLUDE]
@@ -85,19 +92,21 @@
     if(firebaseUser) {
       console.log(firebaseUser);
       sessionStorage.setItem("UniqueID",firebaseUser.uid);
-
       console.log("Unique Id: " + sessionStorage.getItem("UniqueID"));
       var favorite=database.ref("/userSpots/"+ sessionStorage.getItem("UniqueID")+"/");
       console.log(favorite);
       btnLogout.classList.remove('hide');
       nbBtnLogout.classList.remove('hide');
       nbBtnLogin.classList.add('hide');
-      $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + " ");
+      nbBtnSignUp.classList.add('hide');
+      console.log("blah");
+      $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + "   ");
 
     } else {
       console.log('not logged in'); 
       nbBtnLogout.classList.add('hide');
-      nbBtnLogin.classList.remove('hide'); 
+      nbBtnLogin.classList.remove('hide');
+      nbBtnSignUp.classList.remove('hide');  
     }
   });
 

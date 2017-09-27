@@ -32,11 +32,14 @@
                   <li class="nav-item" id="loggedInAs"> 
                   </li>
                   <button id="nbBtnLogin" type="button" class="nav-item btn btn-outline-success my-2 my-sm-0" type="submit">
-                    <span class="glyphicon glyphicon-log-in" my-2 my-sm-0></span> Login / Sign-up
-                  </button>                   
+                    <span class="glyphicon glyphicon-log-in" my-2 my-sm-0></span> Login
+                  </button> <!-- Login Button -->
+                  <button id="nbBtnSignUp" type="button" class="nav-item btn btn-outline-success my-2 my-sm-0" type="submit">
+                      <span class="glyphicon glyphicon-collapse-up" my-2 my-sm-0></span> Sign-up
+                  </button>   <!-- Sign Up Button -->                 
                   <button id="nbBtnLogout" type="button" class="btn btn-outline-success my-2 my-sm-0 hide">
                     <span class="glyphicon glyphicon-log-out" my-2 my-sm-0></span> Logout
-                  </button> 
+                  </button>    <!-- Logout  Button -->
 <!--                   <li class="nav-item">
                     <a id="btnLogout" class="nav-link" active" href="#"><i class="glyphicon glyphicon-log-out"></i></a>
                   </li>   -->                
@@ -61,14 +64,30 @@
           </div>
               <input class="input" id="txtEmail" type="email" placeholder="Email">
               <input class="input" id="txtPassword" type="password" placeholder="Password">
-              <input class="input" id="txtDispName" type="name" placeholder="Display Name">
+<!--               <input class="input" id="txtDispName" type="name" placeholder="Display Name"> -->
               <div class="buttons">
                 <button id="btnLogin" class="btn btn-secondary">Log In</button>
+<!--                 <button id="btnSignUp" class="btn btn-secondary">Sign Up</button> -->
+<!--                 <button id="btnLogout" class="btn btn-action hide">Log Out</button> -->
+                </div>
+          </div>
+      </div>
+      <!-- Signup Modal -->
+      <div id="signUpModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+          </div>
+              <input class="input" id="txtEmail2" type="email" placeholder="Email">
+              <input class="input" id="txtPassword2" type="password" placeholder="Password">
+              <input class="input" id="txtDispName" type="name" placeholder="Display Name">
+              <div class="buttons">
+<!--                 <button id="btnLogin" class="btn btn-secondary">Log In</button> -->
                 <button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
                 <button id="btnLogout" class="btn btn-action hide">Log Out</button>
                 </div>
           </div>
-      </div>
+      </div>      
 
       
       <!-- Login Modal -->
