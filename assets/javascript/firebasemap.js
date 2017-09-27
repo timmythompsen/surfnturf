@@ -331,3 +331,30 @@ window.onclick = function(event) {
     }
 }
 
+/******/
+ //Signup Modal Function
+ /******/
+ // Get the modal
+var modalSignUp = document.getElementById('signUpModal');
+// Get the button that opens the modal
+var btn2 = document.getElementById("myBtn");
+// Get the <span> element that closes the modal
+var span2 = document.getElementsByClassName("close")[0];
+// When the user clicks the button, open the modal 
+loginBtn.onclick = function() {
+    modalSignUp.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+$(".close").on('click', function(){
+  modalSignUp.style.display = "none";
+})
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modalSignUp) {
+        modalSignUp.style.display = "none";
+    }
+}
+
