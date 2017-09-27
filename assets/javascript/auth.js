@@ -40,15 +40,10 @@
     const pass = txtPassword2.value;
     const auth = firebase.auth();
     modalSignUp.style.display = "none";    
-
-    // console.log(dispName);
-    // // sign in
-    // const promise = auth.createUserWithEmailAndPassword(email, pass);
-    // promise.catch(e=> console.log(e.message));   
-
     console.log(dispName);
     // sign in
     const promise = auth.createUserWithEmailAndPassword(email, pass).then(function(user){
+      console.log("user created ", user);
         // [END createwithemail]
         // callSomeFunction(); Optional
         // var user = firebase.auth().currentUser;
@@ -56,6 +51,7 @@
             displayName: dispName
         }).then(function() {
             // Update successful.
+            $("#loggedInAs").html("Logged in as: " + user.displayName + "   ");
         }, function(error) {
             // An error happened.
         });        
@@ -69,8 +65,7 @@
         } else {
             console.error(error);
             alert(error);
-        }
-      
+        }     
         // [END_EXCLUDE]
     })
   });
@@ -99,9 +94,12 @@
       nbBtnLogout.classList.remove('hide');
       nbBtnLogin.classList.add('hide');
       nbBtnSignUp.classList.add('hide');
-      console.log("blah");
-      $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + "   ");
-
+      console.log(firebaseUser.hasOwnProperty('displayName'), firebaseUser.display);
+      if(firebaseUser.display === undefined || firebaseUser.display === null) {
+        return;
+      } else {
+        $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + "   ");
+      }
     } else {
       console.log('not logged in'); 
       nbBtnLogout.classList.add('hide');
@@ -109,14 +107,10 @@
       nbBtnSignUp.classList.remove('hide');  
     }
   });
+ });
 
-  // btnLocation.addEventListener('click',e=> {
-  //   console.log("btnLocation clicked");
-  //   var location  = {spotName: txtLocation.value};
-  //   console.log("favorite location: " + location);
-  //   database.ref("/userSpots/"+ sessionStorage.getItem("UniqueID")).push(location);
-  // });
 
+// FOR TESTING -- CAN BE DELETED ONCE LIVE -- IT IS OUTSIDE THE MAIN FUNCTION 
   btnPrintUser.addEventListener('click',e=> {
   var user = firebase.auth().currentUser;
   if (user != null) {
@@ -131,34 +125,3 @@
     });
   }
 });
-
-
-//watcher for when children are added and adds all children up intially
-// database.ref("/userSpots/"+sessionStorage.getItem("UniqueID")).on("child_added", function(snap){
-
-//   // console.log(snap.val());
-
-//     // store all the values in an object
-//     var snapData = {
-//         "id": snap.key,
-//         "spotName": snap.val().spotName,
-
-//     };
-
-//     // put the data into a strong before attaching it to the update button
-//     var snapDataString = JSON.stringify(snapData);
-
-//     console.log(snapDataString);
-    
-//     //add the record to the table
-//     var tableData = "<tr class="+snapData.id+"><td>"+snapData.id+"</td>";
-//     tableData += "<td class='snap-name'>"+snapData.spotName+"</td>";
-//     // tableData += "<td class='snap-movie'>"+snapData.favMovie+"</td>";
-//     // tableData += "<td><button class='btn btn-default edit snap-update-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Update</button></td>";
-//     // tableData += "<td><button class='btn btn-danger delete' data-movie-id="+snapData.id+">Delete</button></td></tr>";
-    
-//     $(".table").append(tableData);
-// });
-
-
-} ());
