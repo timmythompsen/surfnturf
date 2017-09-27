@@ -17,7 +17,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 database.ref().on("value",function(snapshot){
-   console.log(snapshot.val()); 
+   console.log(snapshot.val());
 })
 
 function initMap() {
@@ -52,8 +52,8 @@ function initMap() {
       reference: locationName,
       idNum: spotId});
 
-      
-         
+
+
         //display() is the ajax call for spitcast to display spot information
         function display(){
         var location = spotNum;
@@ -69,11 +69,11 @@ function initMap() {
           })
           .done(function(response){
             console.log(response);
-            
+
             $.ajax({
               url: queryURL2,
               method: "GET"
-            }) 
+            })
             .done(function(response2){
               console.log(response2);
 
@@ -81,23 +81,23 @@ function initMap() {
               $.ajax({
                 url: queryURL3,
                 method: "GET"
-              }) 
+              })
               .done(function(response3){
-                console.log(response3); 
+                console.log(response3);
 
                 $.ajax({
                   url: queryURL4,
                   method: "GET"
-                }) 
+                })
                 .done(function(response4){
-                  console.log(response4); 
+                  console.log(response4);
 
                   $.ajax({
                     url: queryURL5,
                     method: "GET"
-                  }) 
+                  })
                   .done(function(response5){
-                    console.log(response5);  
+                    console.log(response5);
 
                       var dir=null;
                       var amSwellDir = response2[6][5].dir;
@@ -121,7 +121,7 @@ function initMap() {
                       }else if(amSwellDir >= 315 && amSwellDir < 360){
                         dir="NNW";
                       }
-            
+
                       if (midSwellDir >= 0 && midSwellDir < 45){
                         dir = "NNE";
                       } else if (midSwellDir >= 45 && midSwellDir < 90){
@@ -139,7 +139,7 @@ function initMap() {
                       }else if(midSwellDir >= 315 && midSwellDir < 360){
                         dir="NNW";
                       }
-            
+
                       if (pmSwellDir >= 0 && pmSwellDir < 45){
                         dir = "NNE";
                       } else if (pmSwellDir >= 45 && pmSwellDir < 90){
@@ -162,24 +162,28 @@ function initMap() {
                       + response[0].spot_name +'</h3><p>Morning Conditions: '
                       + response[5].size+'ft' + '</br> Shape: ' + response[5].shape_full
                       + '</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[5].speed_kts + '</br> Tide: ' + response4[5].tide_meters + '</br>'
-                      +'</p><p>Midday Conditions: ' 
-                      + response[12].size+'ft' + '</br> Shape: ' + response[12].shape_full 
+                      +'</p><p>Midday Conditions: '
+                      + response[12].size+'ft' + '</br> Shape: ' + response[12].shape_full
                       +'</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[12].speed_kts + '</br> Tide: ' + response4[12].tide_meters + '</br>'
-                      +'</p><p>Dusk Conditions :' 
+                      +'</p><p>Dusk Conditions :'
                       + response[17].size+'ft' + '</br> Shape: ' + response[17].shape_full
                       +'</br> Swell Direction: '+ dir + '</br> Wind: ' + response3[17].speed_kts + '</br> Tide: ' + response4[17].tide_meters + '</br>'
                       +'</p>' +  '<p> Water Temp: ' + response5.fahrenheit + '</br> Wetsuit: ' + response5.wetsuit + '</p></div>';
+
+                      
 
 
                       var infoWindow1 = new google.maps.InfoWindow({
                               content: displayBox
                             });
                       infoWindow1.open(map, marker);
+                      console.log(marker);
                     });
                   });
                 });
               });
             });
+          
         }
 
       var spotNum;
@@ -188,22 +192,50 @@ function initMap() {
         spotNum = marker.idNum;
         display();
         console.log("marker clicked");
-        infoWindow2.close(map, marker);           
+        infoWindow2.close(map, marker);
       });
 
-      document.getElementById('search').onclick = function() {
-        event.preventDefault();
-        var searchValue = document.getElementById("searchval").value.trim();
-        console.log(searchValue);
-        var temp = searchValue.toLowerCase().trim();
-        console.log(temp);
 
-            
-        database.ref().child('spitCast').on("value", function(snapshot) {
-            console.log(snapshot.val());
-            
-        });
-      };
+      document.getElementById('search').onclick = function() {
+          event.preventDefault();
+          var searchValue = document.getElementById("searchval").value.trim();
+          console.log(searchValue);
+        
+          var isFound = false;
+
+          database.ref().child('spitCast').on("value", function(snapshot) {
+              console.log(snapshot.val());
+
+              var surfLocs = snapshot.val();
+
+              Object.keys(surfLocs).forEach(function(key) {
+                
+                console.log(searchValue);
+                console.log(surfLocs[key].spot_name);
+                if (surfLocs[key].spot_name == searchValue){
+                  console.log("match found");
+                  isFound = true;
+                  
+
+                  var myLatLng = {lat: surfLocs[key].lat, lng: surfLocs[key].lng};
+
+                  var newMarker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    reference: surfLocs[key].spot_name,
+                    idNum: surfLocs[key].spot_id
+                  });
+                  spotNum = newMarker.idNum;
+                  display();
+                  console.log(marker);
+
+
+                }
+              });
+              });
+          }
+      
+      //});
 
 
       /*
@@ -224,15 +256,15 @@ function initMap() {
             for(var i=0; i < response6.length; i++){
               if(temp === response6[i].spot_name.toLowerCase().trim()){
                 spotNum = response6[i].spot_id;
-                
+
                 console.log(spotNum);
-              
+
                 found = true;
-               
+
             }
-            
+
           }
-          
+
             if(found === false){
               alert("No results found.");
             }
@@ -281,7 +313,7 @@ var modal = document.getElementById('myModal');
 var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
+// When the user clicks the button, open the modal
 loginBtn.onclick = function() {
     modal.style.display = "block";
 }
