@@ -146,3 +146,19 @@ Login Info Styling
   div{
     background-color: 868889;
   }
+
+  #loggedInAs {
+    color: white;
+  }
+
+  #nbBtnLogin {
+    margin-top: 3px;
+  }
+
+  #nbBtnSignUp {
+    margin-top: 3px;
+  }
+
+  #nbBtnLogout {
+    margin-top: 3px;
+  }
