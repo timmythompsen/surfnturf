@@ -104,6 +104,14 @@ Login Info Styling
   text-align: center;
   padding: 10px;
 }
+.btn {
+  margin: 3px;
+}
+
+/* Colors the glyphicon on next to Username: to blue */
+.blue {
+  color: blue;
+}
 
   #mapContainer{
     height: 80%;

@@ -57,7 +57,7 @@ window.onload=(function() {
             displayName: dispName
         }).then(function() {
             // Update successful.
-            $("#loggedInAs").html("Logged in as: " + user.displayName + "   ");
+            // $("#loggedInAs").html("Logged in as: " + user.displayName + "   ");
         }, function(error) {
             // An error happened.
         });        
@@ -104,7 +104,9 @@ window.onload=(function() {
       if(firebaseUser.displayName === undefined || firebaseUser.displayName === null) {
         return;
       } else {
-        $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + "   ");
+
+        var loggedIn = $("#nbBtnLogin");
+        $(loggedIn).replaceWith("<button class='btn btn-outline-success my-2 my-sm-0 btn-static'>" + "<span class='glyphicon glyphicon-tint blue'></span>" + "Username: " + firebaseUser.displayName + "</button>");
       }
     } else {
       console.log('not logged in'); 
