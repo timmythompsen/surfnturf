@@ -313,9 +313,9 @@ var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 // When the user clicks the button, open the modal
-loginBtn.onclick = function() {
-    modal.style.display = "block";
-}
+// loginBtn.onclick = function() {
+//     modal.style.display = "block";
+// }
 // When the user clicks on <span> (x), close the modal
 $(".close").on('click', function(){
   modal.style.display = "none";
@@ -340,9 +340,9 @@ var btn2 = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span2 = document.getElementsByClassName("close")[0];
 // When the user clicks the button, open the modal 
-loginBtn.onclick = function() {
-    modalSignUp.style.display = "block";
-}
+// loginBtn.onclick = function() {
+//     modalSignUp.style.display = "block";
+// }
 // When the user clicks on <span> (x), close the modal
 $(".close").on('click', function(){
   modalSignUp.style.display = "none";
