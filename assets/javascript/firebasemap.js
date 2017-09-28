@@ -219,19 +219,18 @@ function initMap() {
 
                   var myLatLng = {lat: surfLocs[key].lat, lng: surfLocs[key].lng};
 
-                  var newMarker = new google.maps.Marker({
+                  marker = new google.maps.Marker({
                     position: myLatLng,
                     map: map,
                     reference: surfLocs[key].spot_name,
                     idNum: surfLocs[key].spot_id
                   });
-                  spotNum = newMarker.idNum;
-                  display();
-                  console.log(marker);
-
-
+                  spotNum = marker.idNum;
                 }
               });
+              if(isFound == true){
+                display();
+              }
               });
           }
       
