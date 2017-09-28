@@ -1,4 +1,5 @@
-(function() {
+window.onload=(function() {
+  console.log("auth.js function called");
   var UserID;
   var loggedInAs;  
 
@@ -8,14 +9,19 @@
   const btnLogin=document.getElementById('btnLogin');
   const btnSignUp=document.getElementById('btnSignUp');
   const btnLogout=document.getElementById('btnLogout');
+  const nbBtnLogin=document.getElementById('nbBtnLogin');
+  const nbBtnLogout=document.getElementById('nbBtnLogout');
+  const nbBtnSignUp=document.getElementById('nbBtnSignUp');
 
   // open login modal
   nbBtnLogin.addEventListener('click', e=> {
+    console.log("login button clicked");
     modal.style.display = "block";    
   })
 
     // open sign-up modal
   nbBtnSignUp.addEventListener('click', e=> {
+    console.log("Sign Up button clicked");
     modalSignUp.style.display = "block";
   });
 
@@ -70,11 +76,11 @@
     })
   });
 
-  btnLogout.addEventListener('click',e=> {
-    console.log("btnLogout clicked");
-    $("#loggedInAs").html("");
-    firebase.auth().signOut();
-  });
+  // btnLogout.addEventListener('click',e=> {
+  //   console.log("btnLogout clicked");
+  //   $("#loggedInAs").html("");
+  //   firebase.auth().signOut();
+  // });
 
   nbBtnLogout.addEventListener('click',e=> {
     console.log("btnLogout clicked");
@@ -90,12 +96,12 @@
       console.log("Unique Id: " + sessionStorage.getItem("UniqueID"));
       var favorite=database.ref("/userSpots/"+ sessionStorage.getItem("UniqueID")+"/");
       console.log(favorite);
-      btnLogout.classList.remove('hide');
+      // btnLogout.classList.remove('hide');
       nbBtnLogout.classList.remove('hide');
       nbBtnLogin.classList.add('hide');
       nbBtnSignUp.classList.add('hide');
-      console.log(firebaseUser.hasOwnProperty('displayName'), firebaseUser.display);
-      if(firebaseUser.display === undefined || firebaseUser.display === null) {
+      console.log(firebaseUser.hasOwnProperty('displayName'), firebaseUser.displayName);
+      if(firebaseUser.displayName === undefined || firebaseUser.displayName === null) {
         return;
       } else {
         $("#loggedInAs").html("Logged in as: " + firebaseUser.displayName + "   ");
